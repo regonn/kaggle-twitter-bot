@@ -1,16 +1,32 @@
 import pandas as pd
 import matplotlib.pyplot as plt
+from dotenv import load_dotenv
 from kaggle.api.kaggle_api_extended import KaggleApi
 from datetime import datetime as dt
 from pytz import timezone
+import tweepy
+import os
 
-api = KaggleApi()
-api.authenticate()
+if os.environ.get("PRODUCTION") is None:
+    load_dotenv(verbose=True)
+
+consumer_key = os.environ.get('TWITTER_CONSUMER_KEY')
+consumer_secret = os.environ.get('TWITTER_CONSUMER_SECRET')
+access_token = os.environ.get('TWITTER_ACCESS_TOKEN')
+access_token_secret = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
+
+auth = tweepy.OAuthHandler(consumer_key, consumer_secret)
+auth.set_access_token(access_token, access_token_secret)
+
+twitter_api = tweepy.API(auth)
+
+kaggle_api = KaggleApi()
+kaggle_api.authenticate()
 
 now = dt.now()
 now = now.astimezone(timezone('UTC'))
 competitions = pd.DataFrame([], columns=['Title', 'ToGo'])
-competitions_list = api.competitions_list()
+competitions_list = kaggle_api.competitions_list()
 for competition in competitions_list:
     if getattr(competition, 'awardsPoints') and not getattr(competition, 'submissionsDisabled'):
         deadline = getattr(competition, 'deadline')
@@ -40,3 +56,5 @@ for i in range(len(titles)):
              i+.25, titles.iloc[i],
              ha='left', fontsize='12')
 plt.savefig('competitions.png')
+
+twitter_api.update_with_media('competitions.png', "Let's get started Kaggle!! #kaggle")
