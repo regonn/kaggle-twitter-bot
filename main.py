@@ -57,4 +57,5 @@ for i in range(len(titles)):
              ha='left', fontsize='12')
 plt.savefig('competitions.png')
 
-twitter_api.update_with_media('competitions.png', "Let's get started Kaggle!! #kaggle")
+twitter_api.update_with_media(
+    'competitions.png', "Let's get started Kaggle!! #kaggle")
