@@ -39,7 +39,7 @@ for competition in competitions_list:
                 getattr(competition, 'title'),
                 getattr(competition, 'enabledDate'),
                 getattr(competition, 'deadline')], index=['Title', 'enabledDate', 'deadline']),
-                                               ignore_index=True)
+                ignore_index=True)
 
 plt.figure(figsize=(12, 6))
 
@@ -53,7 +53,8 @@ for i in range(len(competitions)):
     percent = 1 - compe_to / compe_length
     plt.plot((0, percent), (i, i), linewidth=8.0, c=[0.3, 0.3, 0.3])
     plt.text(1.02, i+0.15, f'{compe_to} days to go')
-    plt.plot((percent, 1), (i, i), linewidth=8.0, c=[1, 0, 0], alpha=percent*0.9)
+    plt.plot((percent, 1), (i, i), linewidth=8.0,
+             c=[1, 0, 0], alpha=percent*0.9)
     plt.text(0, i+0.2, competitions.iloc[i, 0])
 plt.yticks([])
 plt.xticks([])
@@ -63,9 +64,8 @@ plt.title('Kaggle Competitions', fontsize='25')
 plt.suptitle(dt.strftime(now, '%Y-%m-%d %H:%M:%S %Z'), fontsize='14', y=0.97)
 plt.ylim(-0.5, len(competitions) + 0.2)
 plt.xlim(-0.04, 1.22)
-# plt.axis('off')
 plt.subplots_adjust(left=0.02, right=0.98, bottom=0.03, top=0.88)
 plt.savefig('competitions.png')
 
 twitter_api.update_with_media(
-    'competitions.png', "Let's get started Kaggle!! #kaggle")
+    'competitions.png', "Let's get started Kaggle!! #kaggle #かぐるーど")
