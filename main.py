@@ -34,7 +34,7 @@ for competition in competitions_list:
         deadline = getattr(competition, 'deadline')
         deadline = deadline.astimezone(timezone('UTC'))
         diff = deadline - now
-        if diff.days > 0:
+        if diff.days >= 0:
             competitions = competitions.append(pd.Series([
                 getattr(competition, 'title'),
                 getattr(competition, 'enabledDate'),
