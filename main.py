@@ -67,5 +67,7 @@ plt.xlim(-0.04, 1.22)
 plt.subplots_adjust(left=0.02, right=0.98, bottom=0.03, top=0.88)
 plt.savefig('competitions.png')
 
-twitter_api.update_with_media(
-    'competitions.png', "Let's get started Kaggle!! #kaggle #かぐるーど")
+media = twitter_api.media_upload('competitions.png')
+tweet = "Let's get started Kaggle!! #kaggle #かぐるーど"
+
+twitter_api.update_status(status=tweet, media_ids=[media.media_id])
